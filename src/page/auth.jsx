@@ -23,6 +23,14 @@ export default function AuthPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setNotif("");
+    
+    // Password validation
+    if (form.password.length < 6) {
+      setNotif("Password minimal 6 karakter");
+      setTimeout(() => setNotif(""), 3000); // Auto dismiss after 3 seconds
+      return;
+    }
+
     try {
       if (isLogin) {
         // LOGIN
@@ -34,16 +42,19 @@ export default function AuthPage() {
           setTimeout(() => {
             setNotif("");
             navigate("/dashboard");
-          }, 1200);
+          }, 3000);
         } else if (res && res.message) {
           setNotif("Login gagal: " + res.message);
+          setTimeout(() => setNotif(""), 3000);
         } else {
           setNotif("Login gagal: Token tidak ditemukan");
+          setTimeout(() => setNotif(""), 3000);
         }
       } else {
         // REGISTER
         if (form.password !== form.confirmPassword) {
           setNotif("Password dan konfirmasi password tidak sama");
+          setTimeout(() => setNotif(""), 3000);
           return;
         }
         try {
@@ -51,20 +62,22 @@ export default function AuthPage() {
             name: form.name,
             email: form.email,
             password: form.password,
-            // Tambahkan field lain jika backend menerima (misal phone, city)
           });
           if (res && res.message) {
             setNotif(res.message);
           } else {
             setNotif("Registrasi berhasil! Silakan login.");
           }
+          setTimeout(() => setNotif(""), 3000);
           setIsLogin(true);
         } catch (errReg) {
           setNotif((errReg && errReg.message) ? errReg.message : 'Registrasi gagal.');
+          setTimeout(() => setNotif(""), 3000);
         }
       }
     } catch (err) {
       setNotif((err && err.message) ? err.message : 'Terjadi kesalahan.');
+      setTimeout(() => setNotif(""), 3000);
     }
   };
 
@@ -72,13 +85,11 @@ export default function AuthPage() {
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-green-50 to-green-100">
       <div className="bg-white rounded-xl shadow-lg p-8 w-full max-w-md">
         {notif && (
-          <div
-            className={`mb-4 p-3 rounded text-center font-semibold border animate-fade-in ${
-              /gagal|salah|tidak/i.test(notif)
-                ? 'bg-red-100 text-red-800 border-red-300'
-                : 'bg-green-100 text-green-800 border-green-300'
-            }`}
-          >
+          <div className={`mb-4 p-3 rounded text-center font-semibold border animate-fade-in ${
+            notif.toLowerCase().includes('berhasil')
+              ? 'bg-green-100 text-green-800 border-green-300'
+              : 'bg-red-100 text-red-800 border-red-300'
+          }`}>
             {notif}
           </div>
         )}
@@ -165,6 +176,11 @@ export default function AuthPage() {
               className="w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-200"
               required
             />
+            {form.password && form.password.length < 6 && (
+              <p className="text-red-500 text-xs mt-1">
+                Password minimal 6 karakter
+              </p>
+            )}
           </div>
           {!isLogin && (
             <div>

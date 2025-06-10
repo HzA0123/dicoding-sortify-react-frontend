@@ -140,10 +140,10 @@ export default function Classification() {
 
         {/* Drag and Drop Area */}
         <form onSubmit={handleDetect}>
-          <div className="border-2 border-dashed border-green-400 rounded-lg p-10 text-center mb-6 hover:border-green-600 transition-colors duration-200">
-            <UploadCloudIcon className="mx-auto w-16 h-16 text-green-500 mb-4" />
-            <p className="text-xl font-semibold text-gray-700 mb-2">Upload Foto Sampah</p>
-            <p className="text-gray-500">Drag & drop atau klik untuk memilih file (JPG, PNG, max 5MB)</p>
+          <div className="border-2 border-dashed border-green-400 rounded-lg p-4 md:p-10 text-center mb-6 hover:border-green-600 transition-colors duration-200">
+            <UploadCloudIcon className="mx-auto w-12 h-12 md:w-16 md:h-16 text-green-500 mb-4" />
+            <p className="text-lg md:text-xl font-semibold text-gray-700 mb-2">Upload Foto Sampah</p>
+            <p className="text-sm md:text-base text-gray-500">Drag & drop atau klik untuk memilih file (JPG, PNG, max 5MB)</p>
             <input
               type="file"
               accept="image/*"
@@ -151,11 +151,11 @@ export default function Classification() {
               id="fileInput"
               onChange={handleFileChange}
             />
-            <div className="flex justify-center space-x-4 mt-4">
-              <label htmlFor="fileInput" className="btn btn-success cursor-pointer">
+            <div className="flex flex-col sm:flex-row justify-center sm:space-x-4 space-y-2 sm:space-y-0 mt-4">
+              <label htmlFor="fileInput" className="btn btn-success w-full sm:w-auto">
                 <FolderIcon className="w-5 h-5 mr-2" /> Pilih File
               </label>
-              <button type="button" className="btn btn-outline btn-success" onClick={handleOpenCamera}>
+              <button type="button" className="btn btn-outline btn-success w-full sm:w-auto" onClick={handleOpenCamera}>
                 <CameraIcon className="w-5 h-5 mr-2" /> Buka Kamera
               </button>
             </div>

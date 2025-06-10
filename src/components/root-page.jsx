@@ -175,23 +175,14 @@ function Sidebar() {
           </button>
         </div>
         {showLogout && (
-          <div className="fixed inset-0 flex items-center justify-center z-50 backdrop-blur-sm bg-white/30">
-            <div className="bg-white p-10 rounded-2xl shadow-2xl max-w-md w-full text-center scale-105 animate-pop-up border-2 border-green-200">
-              <p className="mb-6 text-2xl font-bold text-gray-800">Yakin ingin keluar?</p>
-              <div className="flex justify-center gap-6">
-                <button className="btn btn-error btn-lg px-8 text-lg" onClick={handleLogout}>Keluar</button>
-                <button className="btn btn-outline btn-lg px-8 text-lg" onClick={() => setShowLogout(false)}>Batal</button>
+          <div className="fixed inset-0 flex items-center justify-center z-50 p-4 backdrop-blur-sm bg-white/30">
+            <div className="bg-white p-6 md:p-10 rounded-2xl shadow-2xl w-[90%] max-w-md mx-auto text-center border-2 border-green-200">
+              <p className="mb-6 text-xl md:text-2xl font-bold text-gray-800">Yakin ingin keluar?</p>
+              <div className="flex flex-col sm:flex-row justify-center gap-3 sm:gap-6">
+                <button className="btn btn-error w-full sm:w-auto text-base" onClick={handleLogout}>Keluar</button>
+                <button className="btn btn-outline w-full sm:w-auto text-base" onClick={() => setShowLogout(false)}>Batal</button>
               </div>
             </div>
-            <style>{`
-              @keyframes pop-up {
-                0% { transform: scale(0.9); opacity: 0; }
-                100% { transform: scale(1.05); opacity: 1; }
-              }
-              .animate-pop-up {
-                animation: pop-up 0.25s cubic-bezier(.4,2,.6,1) both;
-              }
-            `}</style>
           </div>
         )}
       </div>
