@@ -1,4 +1,3 @@
-
 import React from "react";
 import {
   BookIcon,
@@ -36,17 +35,28 @@ export function Root() {
   }
   const loggedIn = useSyncExternalStore(subscribe, () => isLoggedIn());
   return loggedIn ? (
-    <div className="flex min-h-screen bg-gray-100">
+    <div className="flex min-h-screen bg-gray-100 relative">
+      {/* Mobile overlay when sidebar is open */}
       {sidebarOpen && (
-        <div className="sticky top-0 h-screen flex-shrink-0 z-30">
-          <Sidebar />
-        </div>
+        <div
+          className="fixed inset-0 bg-black/50 z-20 lg:hidden"
+          onClick={() => setSidebarOpen(false)}
+        />
       )}
-      <div className="flex flex-col flex-grow min-h-screen">
+
+      {/* Sidebar */}
+      <div className={`fixed lg:static lg:flex-shrink-0 z-30 transition-transform duration-300 ${
+        sidebarOpen ? 'translate-x-0' : '-translate-x-full'
+      } lg:translate-x-0`}>
+        <Sidebar />
+      </div>
+
+      {/* Main Content */}
+      <div className="flex flex-col flex-grow min-h-screen w-full">
         <div className="sticky top-0 z-20">
           <Navbar onMenuClick={() => setSidebarOpen((v) => !v)} />
         </div>
-        <div className="m-1 flex-grow">
+        <div className="m-1 flex-grow overflow-x-hidden">
           {navigation.state === "loading" && <LoadingComponent />}
           <Outlet />
         </div>
@@ -196,12 +206,12 @@ export function Navbar({ onMenuClick }) {
   const pathCrumbs = pathname.map((_, idx) => "/" + pathname.slice(0, idx + 1).join("/"));
 
   return (
-    <div className="navbar bg-base-200 m-1 rounded-box px-5">
-      <div className="navbar-start space-x-3">
+    <div className="navbar bg-base-200 m-1 rounded-box px-2 md:px-5">
+      <div className="flex-1 items-center space-x-3">
         <button onClick={onMenuClick} className="btn btn-ghost btn-circle">
           <MenuIcon />
         </button>
-        <div className="breadcrumbs text-sm capitalize">
+        <div className="breadcrumbs text-sm capitalize hidden sm:inline-block">
           <ul>
             {pathname.map((item, index) => (
               <li key={item}>
@@ -211,14 +221,7 @@ export function Navbar({ onMenuClick }) {
           </ul>
         </div>
       </div>
-      <div className="navbar-center ">
-        <div className="join rounded">
-          <input type={'search'} placeholder={'Search'} className="input join-item rounded-l-full" />
-          <button type={'button'} className={'btn join-item btn-neutral rounded-r-full'}><SearchIcon /></button>
-        </div>
-      </div>
-      <div className="navbar-end space-x-2">
-        <BellIcon />
+      <div className="flex-none mr-2">
         <button
           tabIndex={0}
           className="btn btn-ghost btn-circle avatar"

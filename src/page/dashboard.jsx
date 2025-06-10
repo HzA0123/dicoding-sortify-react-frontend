@@ -164,9 +164,9 @@ export default function Dashboard() {
   };
 
   return (
-    <div className="p-6 bg-green-50 min-h-screen">
+    <div className="p-4 md:p-6 bg-green-50 min-h-screen">
       {/* Statistics Cards */}
-      <div className="grid grid-cols-2 gap-4 mb-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
         <StatCard
           title="Total Klasifikasi"
           value={loadingTotal ? '...' : totalKlasifikasi}
@@ -184,10 +184,10 @@ export default function Dashboard() {
               </div>
 
       {/* Main Content */}
-      <div className="grid grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-6">
         {/* Left Column - News & Updates */}
-        <div className="col-span-2">
-          <div className="bg-white rounded-lg shadow-sm p-6">
+        <div className="lg:col-span-2">
+          <div className="bg-white rounded-lg shadow-sm p-4 md:p-6">
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-lg font-semibold text-gray-800 flex items-center">
                 <BoxIcon className="w-5 h-5 mr-2" />
@@ -200,7 +200,7 @@ export default function Dashboard() {
                 Lihat Semua
               </button>
             </div>
-            <div className="space-y-4">
+            <div className="space-y-3 md:space-y-4">
               {articles.slice(0, 3).map((article, index) => {
                 // Define color schemes for each news item
                 const colorSchemes = [
@@ -243,13 +243,13 @@ export default function Dashboard() {
         </div>
 
         {/* Right Column - Sidebar */}
-        <div className="space-y-6">
+        <div className="space-y-4 md:space-y-6">
           {/* Quick Classification */}
-          <div className="bg-white rounded-lg shadow-sm p-6">
+          <div className="bg-white rounded-lg shadow-sm p-4 md:p-6">
             <h3 className="text-lg font-semibold text-gray-800 mb-4">Klasifikasi Cepat</h3>
             <p className="text-gray-600 text-sm mb-4">Upload foto untuk klasifikasi instan</p>
             <form onSubmit={handleDetect}>
-              <div className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center">
+              <div className="border-2 border-dashed border-gray-300 rounded-lg p-4 md:p-8 text-center">
                 <Camera className="w-12 h-12 text-gray-400 mx-auto mb-2" />
                 <p className="text-gray-500 text-sm mb-3">Ambil foto sampah</p>
                 <input
@@ -259,11 +259,11 @@ export default function Dashboard() {
                   id="quickFileInput"
                   onChange={handleFileChange}
                 />
-                <div className="flex justify-center space-x-4 mb-4">
-                  <label htmlFor="quickFileInput" className="bg-green-600 text-white px-4 py-2 rounded-md text-sm cursor-pointer hover:bg-green-700 flex items-center">
+                <div className="flex flex-col sm:flex-row justify-center space-y-2 sm:space-y-0 sm:space-x-4 mb-4">
+                  <label htmlFor="quickFileInput" className="bg-green-600 text-white px-4 py-2 rounded-md text-sm cursor-pointer hover:bg-green-700 flex items-center justify-center">
                     Pilih File
                   </label>
-                  <button type="button" className="bg-green-100 text-green-700 px-4 py-2 rounded-md text-sm hover:bg-green-200 flex items-center" onClick={handleOpenCamera}>
+                  <button type="button" className="bg-green-100 text-green-700 px-4 py-2 rounded-md text-sm hover:bg-green-200 flex items-center justify-center" onClick={handleOpenCamera}>
                     Buka Kamera
                   </button>
                 </div>
@@ -365,7 +365,7 @@ export default function Dashboard() {
           </div>
 
           {/* Community Highlights */}
-          <div className="bg-white rounded-lg shadow-sm p-6">
+          <div className="bg-white rounded-lg shadow-sm p-4 md:p-6">
             <h3 className="text-lg font-semibold text-gray-800 mb-4">Sorotan Komunitas</h3>
             <div className="space-y-3">
               <CommunityItem
@@ -410,12 +410,12 @@ function StatCard({ title, value, subtitle, color, icon }) {
 // Komponen NewsItem untuk berita
 function NewsItem({ category, time, title, description, views, bgColor, tagColor }) {
   return (
-    <div className="flex items-start space-x-4 p-4 rounded-lg border border-gray-100 hover:bg-gray-50 transition-colors">
+    <div className="flex flex-col sm:flex-row items-start space-y-3 sm:space-y-0 sm:space-x-4 p-4 rounded-lg border border-gray-100 hover:bg-gray-50 transition-colors">
       <div className={`p-3 rounded-lg ${bgColor} flex-shrink-0`}>
         <BoxIcon className="w-6 h-6 text-gray-600" />
       </div>
       <div className="flex-1 min-w-0">
-        <div className="flex items-center space-x-2 mb-1">
+        <div className="flex flex-wrap items-center gap-2 mb-1">
           <span className={`${tagColor} text-xs px-2 py-1 rounded`}>{category}</span>
           <span className="text-xs text-gray-500">{time}</span>
         </div>
