@@ -1,19 +1,109 @@
 import React, { useState } from 'react';
-import { StarIcon, BookOpenIcon, VideoIcon, TimerIcon, UsersIcon, HeartIcon } from 'lucide-react';
+import { Clock, Eye, Star, User } from 'lucide-react';
+
+const articles = [
+  {
+    id: 1,
+    title: 'Limbah Jadi Berkah, Warga Tompaso Raup Cuan dari Sampah Rumah Tangga',
+    source: 'Kompas.com',
+    description: 'Warga Tompaso berhasil mengubah sampah rumah tangga menjadi peluang usaha yang menguntungkan. Melalui program pengelolaan sampah yang inovatif, mereka tidak hanya membersihkan lingkungan tetapi juga menghasilkan pendapatan tambahan dari pengolahan sampah.',
+    link: 'https://money.kompas.com/read/2025/06/08/130000126/limbah-jadi-berkah-warga-tompaso-raup-cuan-dari-sampah-rumah-tangga',
+    author: 'Tim Redaksi Kompas',
+    date: '8 Juni 2025'
+  },
+  {
+    id: 2,
+    title: 'AHY: Sampah di Bantargebang Sudah Menggunung Setinggi 16 Lantai Gedung Perkantoran',
+    source: 'Okezone.com',
+    description: 'Agus Harimurti Yudhoyono (AHY) menyoroti kondisi mengkhawatirkan di TPST Bantargebang, Bekasi. Tumpukan sampah yang mencapai ketinggian setara gedung 16 lantai menunjukkan urgensi penanganan sampah di Jakarta yang membutuhkan solusi inovatif dan berkelanjutan.',
+    link: 'https://economy.okezone.com/amp/2025/05/15/320/3139316/ahy-sampah-di-bantargebang-sudah-menggunung-setinggi-16-lantai-gedung-perkantoran',
+    author: 'Tim Redaksi Okezone',
+    date: '15 Mei 2025'
+  },
+  {
+    id: 3,
+    title: '10 Jenis Sampah Plastik yang Paling Lama Terurai, Butuh 6 Abad',
+    source: 'CNBC Indonesia',
+    description: 'Penelitian terbaru mengungkap daftar 10 jenis sampah plastik yang memiliki waktu penguraian terlama, mencapai hingga 600 tahun. Temuan ini menekankan pentingnya pengurangan penggunaan plastik dan pentingnya daur ulang untuk mengurangi dampak lingkungan jangka panjang.',
+    link: 'https://www.cnbcindonesia.com/research/20250424174938-131-628527/10-jenis-sampah-plastik-yang-paling-lama-terurai-butuh-6-abad',
+    author: 'Tim CNBC Indonesia',
+    date: '24 April 2025'
+  },
+  {
+    id: 4,
+    title: 'Cara Efektif Pengelolaan Sampah Demi Lingkungan Bersih dan Sehat',
+    source: 'Liputan6.com',
+    description: 'Pengelolaan sampah yang efektif menjadi kunci utama dalam mewujudkan lingkungan yang bersih dan sehat. Artikel ini membahas berbagai metode dan strategi praktis dalam mengelola sampah secara berkelanjutan untuk menciptakan lingkungan yang lebih baik.',
+    link: 'https://www.liputan6.com/feeds/read/6034662/cara-efektif-pengelolaan-sampah-demi-lingkungan-bersih-dan-sehat',
+    author: 'Tim Liputan6',
+    date: '2025'
+  }
+];
+
+const videos = [
+  {
+    id: 1,
+    title: 'Cara Mudah Mengolah Sampah Organik Menjadi Pupuk Kompos',
+    description: 'Tutorial lengkap mengolah sampah organik rumah tangga menjadi pupuk kompos berkualitas.',
+    link: 'https://youtu.be/snRhl3ING0Y?si=oBzxI4FOeTUweJ5j',
+    author: 'Zero Waste Indonesia',
+    duration: '10:25',
+    views: '1.2K',
+    rating: '4.8'
+  },
+  {
+    id: 2,
+    title: 'Tips Mengelola Sampah di Rumah dengan Metode 3R',
+    description: 'Panduan praktis menerapkan metode Reduce, Reuse, Recycle dalam pengelolaan sampah rumah tangga.',
+    link: 'https://youtu.be/tVuNnac7m0o?si=Jn49GEL5aWnCFHrE',
+    author: 'Eco Living',
+    duration: '8:15',
+    views: '980',
+    rating: '4.7'
+  },
+  {
+    id: 3,
+    title: 'Inovasi Daur Ulang: Mengubah Sampah Plastik Menjadi Kerajinan',
+    description: 'Kreasi unik mengubah sampah plastik menjadi berbagai produk bernilai jual.',
+    link: 'https://youtu.be/mbqRd7Vv_b8?si=9DrLRS37YjH-PE8X',
+    author: 'Kreasi Daur Ulang',
+    duration: '15:30',
+    views: '2.1K',
+    rating: '4.9'
+  },
+  {
+    id: 4,
+    title: 'Bank Sampah: Solusi Cerdas Pengelolaan Sampah Komunitas',
+    description: 'Mengenal sistem bank sampah dan manfaatnya bagi lingkungan dan ekonomi masyarakat.',
+    link: 'https://youtu.be/xxAypUu7QBA?si=NA75NhEBb8hO9X0L',
+    author: 'Komunitas Hijau',
+    duration: '12:45',
+    views: '1.5K',
+    rating: '4.6'
+  },
+  {
+    id: 5,
+    title: 'Panduan Lengkap Pemilahan Sampah yang Benar',
+    description: 'Cara tepat memilah sampah sesuai jenisnya untuk memaksimalkan proses daur ulang.',
+    link: 'https://youtu.be/LPKToHZ5fuI?si=_DBJZPHdMKeqw5qC',
+    author: 'Edukasi Lingkungan',
+    duration: '9:55',
+    views: '1.8K',
+    rating: '4.8'
+  }
+];
 
 export default function Education() {
-  const [activeTab, setActiveTab] = useState('artikel'); // State untuk melacak tab aktif
+  const [activeTab, setActiveTab] = useState('artikel');
 
-  const handleTabChange = (tab) => {
-    setActiveTab(tab);
-  };
+  const handleTabChange = (tab) => setActiveTab(tab);
 
   return (
-    <div className="p-4 bg-green-50 min-h-screen"> {/* Menambahkan background hijau muda */}
-      <h1 className="text-xl font-bold text-green-700 mb-2">Pusat Edukasi Daur Ulang</h1>
-      <p className="text-gray-600 mb-6">Pelajari berbagai teknik daur ulang melalui artikel mendalam dan video tutorial interaktif</p>
+    <div className="p-4 bg-green-50 min-h-screen">
+      <h1 className="text-2xl font-bold text-green-800 mb-6">Edukasi Pengelolaan Sampah</h1>
+      <p className="text-gray-600 mb-6">Pelajari berbagai teknik daur ulang melalui berita terkini dan video edukasi</p>
 
-      {/* Navigasi Tab */}
+      {/* Tab Navigation */}
       <div className="flex mb-6 border-b border-gray-200">
         <button
           className={`px-4 py-2 text-sm font-medium ${
@@ -23,7 +113,7 @@ export default function Education() {
           }`}
           onClick={() => handleTabChange('artikel')}
         >
-          Artikel Edukasi
+          Berita Edukasi
         </button>
         <button
           className={`px-4 py-2 text-sm font-medium ${
@@ -33,180 +123,81 @@ export default function Education() {
           }`}
           onClick={() => handleTabChange('video')}
         >
-          Video Tutorial
+          Video Edukasi
         </button>
       </div>
 
-      {/* Konten Tab */}
+      {/* Tab Content */}
       <div>
         {activeTab === 'artikel' && (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {/* Contoh Kartu Artikel (Ulangi div ini untuk setiap kartu artikel) */}
-            <div className="bg-white rounded-lg shadow-md overflow-hidden border border-green-200">
-              {/* Placeholder Gambar/Thumbnail */}
-              <div className="w-full h-40 bg-gray-200 flex items-center justify-center">
-                <svg className="w-12 h-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                </svg>
-              </div>
-
-              <div className="p-4">
-                {/* Judul Artikel */}
-                <h3 className="font-semibold text-lg text-green-700 mb-2">Panduan Lengkap Memilah Sampah Organik</h3>
-                {/* Deskripsi Singkat */}
-                <p className="text-gray-600 text-sm mb-4">Pelajari cara memisahkan sampah organik dengan benar untuk kompos yang berkualitas.</p>
-
-                {/* Metadata */}
-                <div className="flex items-center justify-between text-gray-500 text-xs mb-4">
-                  <span><BookOpenIcon className="inline-block w-4 h-4 mr-1" /> 8 menit baca</span>
-                  <span><UsersIcon className="inline-block w-4 h-4 mr-1" /> 1520</span>
-                  <span><StarIcon className="inline-block w-4 h-4 mr-1 text-yellow-400" fill="currentColor"/> 4.8</span>
+            {articles.map((article) => (
+              <div key={article.id} className="bg-white rounded-lg shadow-md overflow-hidden border border-green-200">
+                <div className="w-full h-40 bg-gray-200 flex items-center justify-center">
+                  <svg className="w-12 h-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                  </svg>
                 </div>
-
-                {/* Penulis/Sumber */}
-                <div className="flex items-center text-gray-500 text-xs mb-4">
-                  <UsersIcon className="inline-block w-4 h-4 mr-1" /> Dr. Sari Lingkungan
-                </div>
-                 {/* Tanggal */}
-                 <div className="flex items-center text-gray-500 text-xs mb-4">
-                    <svg className="inline-block w-4 h-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3m8 4V3m-9 8h.01M7 12h.01M6 16h.01M10 16h.01M14 16h.01M18 16h.01M16 21H5a2 2 0 01-2-2V5a2 2 0 012-2h10a2 2 0 012 2v17l-2-1.5V21z" /></svg> 3 hari yang lalu
-                 </div>
-
-
-                {/* Tombol Aksi dan Share/Love Container */}
-                <div className="flex items-center justify-between mt-4 pt-4 border-t border-gray-200"> {/* Menambahkan garis di sini */}
-                  <button className="bg-green-600 text-white px-4 py-2 rounded-md text-sm hover:bg-green-700 transition-colors duration-200">
-                      Baca Artikel
-                  </button>
-                  <div className="flex items-center space-x-2 text-gray-500">
-                    <span><svg className="inline-block w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8.684 13.342C8.886 13.563 9.126 13.745 9.393 13.885c.266.14.551.236.845.291.294.055.594.069.893.069c.3 0 .6-.014.894-.069.293-.055.578-.151.844-.291.267-.14.507-.322.709-.543l3.566-3.566c.92-.92 1.023-2.29.236-3.232-.81-.943-2.25-.943-3.06 0l-1.636 1.636a.5.5 0 01-.707 0L9.07 9.07a.5.5 0 010-.707l1.636-1.636c.81-.943 2.25-.943 3.06 0 .787.942.684 2.312-.236 3.232L15.15 13.342c-.202.221-.442.403-.709.543a3.003 3.003 0 01-4.282 0c-.267-.14-.507-.322-.709-.543z" /></svg></span>
-                    <span><HeartIcon className="inline-block w-4 h-4" /></span>
+                <div className="p-4">
+                  <h3 className="font-semibold text-lg text-green-700 mb-2">{article.title}</h3>
+                  <p className="text-gray-600 text-sm mb-4">{article.description}</p>
+                  <div className="flex items-center text-gray-500 text-xs mb-2">
+                    <span>{article.source}</span>
+                    <span className="mx-2">•</span>
+                    <span>{article.author}</span>
+                    <span className="mx-2">•</span>
+                    <span>{article.date}</span>
+                  </div>
+                  <div className="flex justify-end">
+                    <a
+                      href={article.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="btn btn-success btn-sm"
+                    >
+                      Baca Berita
+                    </a>
                   </div>
                 </div>
-                {/* Poin */}
-                <div className="text-right text-sm font-semibold text-green-600 mt-2">+5 poin</div>
               </div>
-            </div>
-
-            {/* Ulangi div kartu di atas untuk kartu artikel lainnya */}
-             {/* Contoh Kartu Artikel 2 */}
-             <div className="bg-white rounded-lg shadow-md overflow-hidden border border-green-200">
-               {/* Placeholder Gambar/Thumbnail */}
-               <div className="w-full h-40 bg-gray-200 flex items-center justify-center">
-                 <svg className="w-12 h-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
-               </div>
-               <div className="p-4">
-                 <h3 className="font-semibold text-lg text-green-700 mb-2">Kreasi Unik dari Botol Plastik Bekas</h3>
-                 <p className="text-gray-600 text-sm mb-4">Ide kreatif mengubah botol plastik menjadi barang berguna untuk rumah.</p>
-                 <div className="flex items-center justify-between text-gray-500 text-xs mb-4">
-                   <span><BookOpenIcon className="inline-block w-4 h-4 mr-1" /> 12 menit baca</span>
-                   <span><UsersIcon className="inline-block w-4 h-4 mr-1" /> 980</span>
-                    <span><StarIcon className="inline-block w-4 h-4 mr-1 text-yellow-400" fill="currentColor"/> 4.6</span>
-                 </div>
-                  <div className="flex items-center text-gray-500 text-xs mb-4">
-                     <UsersIcon className="inline-block w-4 h-4 mr-1" /> Eko Kreatif
-                 </div>
-                  <div className="flex items-center text-gray-500 text-xs mb-4">
-                     <svg className="inline-block w-4 h-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3m8 4V3m-9 8h.01M7 12h.01M6 16h.01M10 16h.01M14 16h.01M18 16h.01M16 21H5a2 2 0 01-2-2V5a2 2 0 012-2h10a2 2 0 012 2v17l-2-1.5V21z" /></svg> 5 hari yang lalu
-                  </div>
-
-                 <div className="flex items-center justify-between mt-4 pt-4 border-t border-gray-200">
-                   <button className="bg-green-600 text-white px-4 py-2 rounded-md text-sm hover:bg-green-700 transition-colors duration-200">
-                       Baca Artikel
-                   </button>
-                   <div className="flex items-center space-x-2 text-gray-500">
-                      <span><svg className="inline-block w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8.684 13.342C8.886 13.563 9.126 13.745 9.393 13.885c.266.14.551.236.845.291.294.055.594.069.893.069c.3 0 .6-.014.894-.069.293-.055.578-.151.844-.291.267-.14.507-.322.709-.543l3.566-3.566c.92-.92 1.023-2.29.236-3.232-.81-.943-2.25-.943-3.06 0l-1.636 1.636a.5.5 0 01-.707 0L9.07 9.07a.5.5 0 010-.707l1.636-1.636c.81-.943 2.25-.943 3.06 0 .787.942.684 2.312-.236 3.232L15.15 13.342c-.202.221-.442.403-.709.543a3.003 3.003 0 01-4.282 0c-.267-.14-.507-.322-.709-.543z" /></svg></span>
-                     <span><HeartIcon className="inline-block w-4 h-4" /></span>
-                   </div>
-                 </div>
-                  <div className="text-right text-sm font-semibold text-green-600 mt-2">+5 poin</div>
-               </div>
-             </div>
-
+            ))}
           </div>
         )}
 
         {activeTab === 'video' && (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {/* Contoh Kartu Video (Ulangi div ini untuk setiap kartu video) */}
-            <div className="bg-white rounded-lg shadow-md overflow-hidden border border-green-200">
-              {/* Placeholder Gambar/Thumbnail Video */}
-              <div className="w-full h-40 bg-gray-300 flex items-center justify-center">
-                <svg className="w-12 h-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 10l4.553-2.276A1 1 0 0121 8.7V15.3a1 1 0 01-1.447.874L15 14m-7 0L.447 17.124A1 1 0 010 16.3V9.7a1 1 0 011.447-.874L7 10m0 4l6 4m-6-4L3 6m0 4l3-4m6 4l3-4m-3 4V4M3 6l3 4m0 0L3 4m3 0l3 4m0 0L6 4m0 0L3 4" /></svg>
-              </div>
-
-              <div className="p-4">
-                {/* Judul Video */}
-                <h3 className="font-semibold text-lg text-green-700 mb-2">Cara Membuat Kompos dari Sampah Dapur</h3> {/* Menyesuaikan judul video */}
-                {/* Deskripsi Singkat */}
-                <p className="text-gray-600 text-sm mb-4">Video tutorial lengkap membuat kompos organik di rumah.</p>
-
-                {/* Metadata */}
-                <div className="flex items-center justify-between text-gray-500 text-xs mb-4">
-                  <span><TimerIcon className="inline-block w-4 h-4 mr-1" /> 12:45</span> {/* Contoh durasi */}
-                  <span><UsersIcon className="inline-block w-4 h-4 mr-1" /> 892</span>
-                   <span><StarIcon className="inline-block w-4 h-4 mr-1 text-yellow-400" fill="currentColor"/> 4.8</span>
+            {videos.map((video) => (
+              <div key={video.id} className="bg-white rounded-lg shadow-md overflow-hidden border border-green-200">
+                <div className="w-full h-48 bg-gray-300 flex items-center justify-center">
+                  <svg className="w-16 h-16 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
                 </div>
-
-                {/* Penulis/Sumber */}
-                <div className="flex items-center text-gray-500 text-xs mb-4">
-                  <UsersIcon className="inline-block w-4 h-4 mr-1" /> Ibu Hijau
-                </div>
-                 {/* Tanggal */}
-                 <div className="flex items-center text-gray-500 text-xs mb-4">
-                     <svg className="inline-block w-4 h-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3m8 4V3m-9 8h.01M7 12h.01M6 16h.01M10 16h.01M14 16h.01M18 16h.01M16 21H5a2 2 0 01-2-2V5a2 2 0 012-2h10a2 2 0 012 2v17l-2-1.5V21z" /></svg> 1 minggu yang lalu
+                <div className="p-4">
+                  <h3 className="font-semibold text-lg text-green-700 mb-2">{video.title}</h3>
+                  <p className="text-gray-600 text-sm mb-4">{video.description}</p>
+                  <div className="flex items-center justify-between text-gray-500 text-xs mb-4">
+                    <span><Clock className="inline-block w-4 h-4 mr-1" /> {video.duration}</span>
+                    <span><Eye className="inline-block w-4 h-4 mr-1" /> {video.views}</span>
+                    <span><Star className="inline-block w-4 h-4 mr-1 text-yellow-400" fill="currentColor"/> {video.rating}</span>
                   </div>
-
-
-                {/* Tombol Aksi dan Share/Love Container */}
-                <div className="flex items-center justify-between mt-4 pt-4 border-t border-gray-200"> {/* Menambahkan garis di sini */}
-                  <button className="bg-green-600 text-white px-4 py-2 rounded-md text-sm hover:bg-green-700 transition-colors duration-200">
-                      Tonton Video
-                  </button>
-                  <div className="flex items-center space-x-2 text-gray-500">
-                     <span><svg className="inline-block w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8.684 13.342C8.886 13.563 9.126 13.745 9.393 13.885c.266.14.551.236.845.291.294.055.594.069.893.069c.3 0 .6-.014.894-.069.293-.055.578-.151.844-.291.267-.14.507-.322.709-.543l3.566-3.566c.92-.92 1.023-2.29.236-3.232-.81-.943-2.25-.943-3.06 0l-1.636 1.636a.5.5 0 01-.707 0L9.07 9.07a.5.5 0 010-.707l1.636-1.636c.81-.943 2.25-.943 3.06 0 .787.942.684 2.312-.236 3.232L15.15 13.342c-.202.221-.442.403-.709.543a3.003 3.003 0 01-4.282 0c-.267-.14-.507-.322-.709-.543z" /></svg></span>
-                    <span><HeartIcon className="inline-block w-4 h-4" /></span>
-                  </div>
-                </div>
-                {/* Poin */}
-                <div className="text-right text-sm font-semibold text-green-600 mt-2">+10 poin</div>
-              </div>
-            </div>
-
-             {/* Contoh Kartu Video 2 */}
-             <div className="bg-white rounded-lg shadow-md overflow-hidden border border-green-200">
-               {/* Placeholder Gambar/Thumbnail Video */}
-               <div className="w-full h-40 bg-gray-300 flex items-center justify-center">
-                 <svg className="w-12 h-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 10l4.553-2.276A1 1 0 0121 8.7V15.3a1 1 0 01-1.447.874L15 14m-7 0L.447 17.124A1 1 0 010 16.3V9.7a1 1 0 011.447-.874L7 10m0 4l6 4m-6-4L3 6m0 4l3-4m6 4l3-4m-3 4V4M3 6l3 4m0 0L3 4m3 0l3 4m0 0L6 4m0 0L3 4" /></svg>
-               </div>
-               <div className="p-4">
-                 <h3 className="font-semibold text-lg text-green-700 mb-2">Origami dari Kertas Bekas: Seni Daur Ulang</h3>
-                 <p className="text-gray-600 text-sm mb-4">Teknik origami menggunakan kertas bekas untuk dekorasi rumah.</p>
-                 <div className="flex items-center justify-between text-gray-500 text-xs mb-4">
-                   <span><TimerIcon className="inline-block w-4 h-4 mr-1" /> 15:20</span>
-                   <span><UsersIcon className="inline-block w-4 h-4 mr-1" /> 678</span>
-                    <span><StarIcon className="inline-block w-4 h-4 mr-1 text-yellow-400" fill="currentColor"/> 4.7</span>
-                 </div>
-                 <div className="flex items-center text-gray-500 text-xs mb-4">
-                   <UsersIcon className="inline-block w-4 h-4 mr-1" /> Paper Craft Pro
-                 </div>
                   <div className="flex items-center text-gray-500 text-xs mb-4">
-                      <svg className="inline-block w-4 h-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3m8 4V3m-9 8h.01M7 12h.01M6 16h.01M10 16h.01M14 16h.01M18 16h.01M16 21H5a2 2 0 01-2-2V5a2 2 0 012-2h10a2 2 0 012 2v17l-2-1.5V21z" /></svg> 1 minggu yang lalu
+                    <User className="inline-block w-4 h-4 mr-1" /> {video.author}
                   </div>
-
-                 <div className="flex items-center justify-between mt-4 pt-4 border-t border-gray-200">
-                   <button className="bg-green-600 text-white px-4 py-2 rounded-md text-sm hover:bg-green-700 transition-colors duration-200">
-                       Tonton Video
-                   </button>
-                   <div className="flex items-center space-x-2 text-gray-500">
-                      <span><svg className="inline-block w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8.684 13.342C8.886 13.563 9.126 13.745 9.393 13.885c.266.14.551.236.845.291.294.055.594.069.893.069c.3 0 .6-.014.894-.069.293-.055.578-.151.844-.291.267-.14.507-.322.709-.543l3.566-3.566c.92-.92 1.023-2.29.236-3.232-.81-.943-2.25-.943-3.06 0l-1.636 1.636a.5.5 0 01-.707 0L9.07 9.07a.5.5 0 010-.707l1.636-1.636c.81-.943 2.25-.943 3.06 0 .787.942.684 2.312-.236 3.232L15.15 13.342c-.202.221-.442.403-.709.543a3.003 3.003 0 01-4.282 0c-.267-.14-.507-.322-.709-.543z" /></svg></span>
-                     <span><HeartIcon className="inline-block w-4 h-4" /></span>
-                   </div>
-                 </div>
-                  <div className="text-right text-sm font-semibold text-green-600 mt-2">+10 poin</div>
-               </div>
-             </div>
-
+                  <div className="flex items-center justify-between mt-4 pt-4 border-t border-gray-200">
+                    <a 
+                      href={video.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="btn btn-success btn-sm"
+                    >
+                      Tonton Video
+                    </a>
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
         )}
       </div>

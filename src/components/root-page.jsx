@@ -17,11 +17,25 @@ import {
 import { LoadingComponent } from "./loading.jsx";
 import { Outlet, NavLink, useLocation, useNavigate, useNavigation } from "react-router-dom";
 import { isLoggedIn, setLoggedIn } from "../utils/auth";
+import { useEffect, useSyncExternalStore } from "react";
 
 export function Root() {
   const navigation = useNavigation();
   const [sidebarOpen, setSidebarOpen] = React.useState(true);
-  return (
+  const navigate = useNavigate();
+  // Redirect ke login jika belum login
+  useEffect(() => {
+    if (!isLoggedIn()) {
+      navigate("/login", { replace: true });
+    }
+  }, [navigate]);
+  // Subscribe to localStorage changes for login state
+  function subscribe(callback) {
+    window.addEventListener("storage", callback);
+    return () => window.removeEventListener("storage", callback);
+  }
+  const loggedIn = useSyncExternalStore(subscribe, () => isLoggedIn());
+  return loggedIn ? (
     <div className="flex min-h-screen bg-gray-100">
       {sidebarOpen && (
         <div className="sticky top-0 h-screen flex-shrink-0 z-30">
@@ -38,6 +52,8 @@ export function Root() {
         </div>
       </div>
     </div>
+  ) : (
+    <Outlet />
   );
 }
 
@@ -46,22 +62,50 @@ function Sidebar() {
     { path: '/dashboard', icon: <LayoutDashboardIcon size={20} />, text: 'Dashboard' },
     { path: '/classification', icon: <LayersIcon size={20} />, text: 'Klasifikasi' },
     { path: '/education', icon: <BookIcon size={20} />, text: 'Edukasi' },
-    { path: '/statistik', icon: <ChartBarIcon size={20} />, text: 'Statistik' },
+    // Statistik dihapus
     { path: '/tentang', icon: <InfoIcon size={20} />, text: 'Tentang' },
     { path: '/profile', icon: <CogIcon size={20} />, text: 'Pengaturan' },
   ];
   const [showLogout, setShowLogout] = React.useState(false);
+  const [userName, setUserName] = React.useState('');
   const navigate = useNavigate();
   const loggedIn = isLoggedIn();
-  const handleMenuClick = (e, path) => {
-    if (!loggedIn && path !== "/" && path !== "/profile") {
+  // Fetch nama user dari API profile
+  React.useEffect(() => {
+    async function fetchProfile() {
+      if (!loggedIn) {
+        setUserName('');
+        return;
+      }
+      try {
+        const token = localStorage.getItem('token');
+        const res = await fetch('http://localhost:3000/api/user/profile', {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+        const data = await res.json();
+        console.log('Profile API response:', data);
+        if (data && data.profile && data.profile.name) {
+          setUserName(data.profile.name);
+        } else {
+          setUserName('');
+        }
+      } catch {
+        setUserName('');
+      }
+    }
+    fetchProfile();
+  }, [loggedIn]);
+  // Hapus argumen path jika tidak dipakai
+  const handleMenuClick = (e) => {
+    if (!loggedIn) {
       e.preventDefault();
-      navigate("/");
+      navigate("/login");
     }
   };
   const handleLogout = () => {
     setShowLogout(false);
     setLoggedIn(false);
+    window.dispatchEvent(new Event('storage'));
     navigate("/");
   };
   return (
@@ -83,7 +127,7 @@ function Sidebar() {
                 isActive ? 'bg-green-100 text-green-700 font-semibold' : 'text-gray-700 hover:bg-green-50'
               }
               to={item.path}
-              onClick={e => handleMenuClick(e, item.path)}
+              onClick={handleMenuClick}
               style={!loggedIn && item.path !== "/" && item.path !== "/profile" ? { pointerEvents: "auto", opacity: 0.5, cursor: "not-allowed" } : {}}
             >
               {item.icon}
@@ -99,12 +143,17 @@ function Sidebar() {
             className={({ isActive }) =>
               isActive ? 'bg-green-100 text-green-700 font-semibold flex items-center p-2 rounded-md' : 'text-gray-700 hover:bg-green-50 flex items-center p-2 rounded-md'
             }
-            to="/profile"
+            to={loggedIn ? "/profile" : "/login"}
+            onClick={e => {
+              if (!loggedIn) {
+                e.preventDefault();
+                navigate("/login");
+              }
+            }}
           >
             <UserIcon size={24} className="mr-3 text-green-600" />
             <div>
-              <p className="font-bold">Eco Warrior</p>
-              <p className="text-sm text-gray-500">Level 5 • 12.470 poin</p>
+              <p className="font-bold">{userName || 'User'}</p>
             </div>
           </NavLink>
           <button
@@ -173,7 +222,13 @@ export function Navbar({ onMenuClick }) {
         <button
           tabIndex={0}
           className="btn btn-ghost btn-circle avatar"
-          onClick={() => navigate('/profile')}
+          onClick={() => {
+            if (isLoggedIn()) {
+              navigate('/profile');
+            } else {
+              navigate('/login');
+            }
+          }}
         >
           <div className="w-10 rounded-full">
             <img

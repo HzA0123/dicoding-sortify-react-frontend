@@ -5,10 +5,11 @@ import { Root } from "./components/root-page.jsx";
 import Dashboard from "./page/dashboard.jsx";
 import Classification from "./page/classification.jsx";
 import Education from "./page/education.jsx";
-import Statistik from "./page/statistik.jsx";
+// import Statistik from "./page/statistik.jsx";
 import Profile from "./page/profile.jsx";
 import AboutPage from "./page/about.jsx";
 import AuthPage from "./page/auth.jsx";
+import ProtectedRoute from "./components/ProtectedRoute.jsx";
 
 
 
@@ -23,8 +24,12 @@ export const router = createBrowserRouter([
 		element: <AuthPage />,
 	  },
 	  {
+		path: "login",
+		element: <AuthPage />,
+	  },
+	  {
 		path: "dashboard",
-		element: <Dashboard />,
+		element: <ProtectedRoute><Dashboard /></ProtectedRoute>,
 		children: [
 		  {
 			path: "test1",
@@ -40,31 +45,28 @@ export const router = createBrowserRouter([
 	  },
 	  {
 		path: "profile",
-		element: <Profile />,
+		element: <ProtectedRoute><Profile /></ProtectedRoute>,
 	  },
 	  {
 		path: "customers",
-		element: <Profile />,
+		element: <ProtectedRoute><Profile /></ProtectedRoute>,
 	  },
 	  {
 		path: "classification",
-		element: <Classification />,
+		element: <ProtectedRoute><Classification /></ProtectedRoute>,
 	  },
 	  {
 		path: "education",
-		element: <Education />,
+		element: <ProtectedRoute><Education /></ProtectedRoute>,
 	  },
-	  {
-		path: "statistik",
-		element: <Statistik />,
-	  },
+	  // Statistik page dihapus
 	  {
 		path: "about",
-		element: <AboutPage />,
+		element: <ProtectedRoute><AboutPage /></ProtectedRoute>,
 	  },
 	  {
 		path: "tentang",
-		element: <AboutPage />,
+		element: <ProtectedRoute><AboutPage /></ProtectedRoute>,
 	  },
 	],
   },

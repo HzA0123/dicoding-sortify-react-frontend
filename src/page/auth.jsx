@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { setLoggedIn } from "../utils/auth";
+import { loginUser, registerUser } from "../utils/api";
 
 export default function AuthPage() {
   const navigate = useNavigate();
@@ -19,18 +20,51 @@ export default function AuthPage() {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // TODO: Tambahkan logika autentikasi/registrasi
-    setNotif(isLogin ? "Login berhasil!" : "Registrasi berhasil!");
-    if (isLogin) {
-      setLoggedIn(true);
-      setTimeout(() => {
-        setNotif("");
-        navigate("/dashboard");
-      }, 1200);
-    } else {
-      setTimeout(() => setNotif("") , 1200);
+    setNotif("");
+    try {
+      if (isLogin) {
+        // LOGIN
+        const res = await loginUser({ email: form.email, password: form.password });
+        if (res && res.token) {
+          localStorage.setItem('token', res.token);
+          setLoggedIn(true);
+          setNotif("Login berhasil!");
+          setTimeout(() => {
+            setNotif("");
+            navigate("/dashboard");
+          }, 1200);
+        } else if (res && res.message) {
+          setNotif("Login gagal: " + res.message);
+        } else {
+          setNotif("Login gagal: Token tidak ditemukan");
+        }
+      } else {
+        // REGISTER
+        if (form.password !== form.confirmPassword) {
+          setNotif("Password dan konfirmasi password tidak sama");
+          return;
+        }
+        try {
+          const res = await registerUser({
+            name: form.name,
+            email: form.email,
+            password: form.password,
+            // Tambahkan field lain jika backend menerima (misal phone, city)
+          });
+          if (res && res.message) {
+            setNotif(res.message);
+          } else {
+            setNotif("Registrasi berhasil! Silakan login.");
+          }
+          setIsLogin(true);
+        } catch (errReg) {
+          setNotif((errReg && errReg.message) ? errReg.message : 'Registrasi gagal.');
+        }
+      }
+    } catch (err) {
+      setNotif((err && err.message) ? err.message : 'Terjadi kesalahan.');
     }
   };
 
@@ -38,13 +72,24 @@ export default function AuthPage() {
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-green-50 to-green-100">
       <div className="bg-white rounded-xl shadow-lg p-8 w-full max-w-md">
         {notif && (
-          <div className="mb-4 p-3 rounded bg-green-100 text-green-800 text-center font-semibold border border-green-300 animate-fade-in">
+          <div
+            className={`mb-4 p-3 rounded text-center font-semibold border animate-fade-in ${
+              /gagal|salah|tidak/i.test(notif)
+                ? 'bg-red-100 text-red-800 border-red-300'
+                : 'bg-green-100 text-green-800 border-green-300'
+            }`}
+          >
             {notif}
           </div>
         )}
         <div className="flex flex-col items-center mb-6">
           <div className="w-16 h-16 flex items-center justify-center rounded-full bg-green-100 mb-2">
-            <span className="text-4xl">♻️</span>
+            <img 
+              src="/logo-sortify.png" 
+              alt="Sortify Logo" 
+              className="w-20 h-20 object-contain"
+              style={{ paddingTop: '15px' }}
+            />
           </div>
           <h1 className="text-2xl font-bold text-green-700 mb-1">Sortify</h1>
           <p className="text-green-700 text-sm">Platform AI untuk Klasifikasi Sampah</p>
