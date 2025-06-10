@@ -55,10 +55,9 @@ yarn build
 ```
 src/
 ├── components/     # Reusable components
-├── pages/         # Page components
-├── utils/         # Utility functions
-├── assets/        # Static assets
-└── App.jsx        # Main application component
+├── page/          # Page components
+├── utils/         # Utility functions and API calls
+└── assets/        # Static assets
 ```
 
 ## Environment Variables
@@ -69,6 +68,13 @@ VITE_API_URL=your_backend_api_url
 
 ## Authentication
 The platform uses JWT-based authentication. Tokens are stored in localStorage and automatically included in API requests.
+
+## Contributing
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
 ## License
 This project is licensed under the MIT License - see the LICENSE file for details.
