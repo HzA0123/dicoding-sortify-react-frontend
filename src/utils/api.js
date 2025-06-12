@@ -1,6 +1,12 @@
 // src/utils/api.js
 
-const API_BASE = 'http://localhost:3000/api'; // Ganti ke URL backend Express
+const API_URL = 'https://backend-sortify-t7yen6klxa-et.a.run.app';
+
+// Update base headers for all requests
+const baseHeaders = {
+  'Content-Type': 'application/json',
+  'Accept': 'application/json'
+};
 
 // Helper untuk handle response
 async function handleResponse(response) {
@@ -13,18 +19,18 @@ async function handleResponse(response) {
 
 // AUTH
 export async function loginUser({ email, password }) {
-  const res = await fetch(`${API_BASE}/auth/login`, {
+  const res = await fetch(`${API_URL}/api/auth/login`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: baseHeaders,
     body: JSON.stringify({ email, password }),
   });
   return handleResponse(res);
 }
 
 export async function registerUser({ name, email, password }) {
-  const res = await fetch(`${API_BASE}/auth/register`, {
+  const res = await fetch(`${API_URL}/api/auth/register`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: baseHeaders,
     body: JSON.stringify({ name, email, password }),
   });
   return handleResponse(res);
@@ -32,14 +38,14 @@ export async function registerUser({ name, email, password }) {
 
 // USER
 export async function getUserProfile(token) {
-  const res = await fetch(`${API_BASE}/user/profile`, {
+  const res = await fetch(`${API_URL}/api/user/profile`, {
     headers: { 'Authorization': `Bearer ${token}` },
   });
   return handleResponse(res);
 }
 
 export async function updateUserProfile(data, token) {
-  const res = await fetch(`${API_BASE}/user/profile`, {
+  const res = await fetch(`${API_URL}/api/user/profile`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
@@ -52,7 +58,7 @@ export async function updateUserProfile(data, token) {
 
 // DELETE ACCOUNT
 export const deleteAccount = async (token) => {
-  const response = await fetch(`${API_BASE}/account/delete`, {
+  const response = await fetch(`${API_URL}/api/account/delete`, {
     method: 'DELETE',
     headers: {
       'Authorization': `Bearer ${token}`
@@ -70,7 +76,7 @@ export const deleteAccount = async (token) => {
 
 // EXPORT USER DATA (opsional)
 export async function exportUserData(token) {
-  const res = await fetch(`${API_BASE}/user/export`, {
+  const res = await fetch(`${API_URL}/api/user/export`, {
     headers: { 'Authorization': `Bearer ${token}` },
   });
   // Asumsikan backend mengirim file (misal CSV/JSON), handle sebagai blob
@@ -80,7 +86,7 @@ export async function exportUserData(token) {
 
 // KLASIFIKASI SAMPAH
 export async function detectSampah(formData, token) {
-  const res = await fetch(`${API_BASE}/sampah/detect`, {
+  const res = await fetch(`${API_URL}/api/sampah/detect`, {
     method: 'POST',
     headers: {
       'Authorization': `Bearer ${token}`,
@@ -92,7 +98,7 @@ export async function detectSampah(formData, token) {
 
 // EDUKASI
 export async function getEdukasi(token) {
-  const res = await fetch(`${API_BASE}/edukasi`, {
+  const res = await fetch(`${API_URL}/api/edukasi`, {
     headers: { 'Authorization': `Bearer ${token}` },
   });
   return handleResponse(res);

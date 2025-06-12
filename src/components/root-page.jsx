@@ -89,7 +89,7 @@ function Sidebar() {
       }
       try {
         const token = localStorage.getItem('token');
-        const res = await fetch('http://localhost:3000/api/user/profile', {
+        const res = await fetch('https://backend-sortify-t7yen6klxa-et.a.run.app/api/user/profile', {
           headers: { Authorization: `Bearer ${token}` }
         });
         const data = await res.json();
@@ -198,18 +198,22 @@ export function Navbar({ onMenuClick }) {
 
   return (
     <div className="navbar bg-base-200 m-1 rounded-box px-2 md:px-5">
-      <div className="flex-1 items-center space-x-3">
-        <button onClick={onMenuClick} className="btn btn-ghost btn-circle">
-          <MenuIcon />
-        </button>
-        <div className="breadcrumbs text-sm capitalize hidden sm:inline-block">
-          <ul>
-            {pathname.map((item, index) => (
-              <li key={item}>
-                <NavLink to={pathCrumbs[index]}>{item}</NavLink>
-              </li>
-            ))}
-          </ul>
+      <div className="flex-1 items-center">
+        <div className="flex items-center">
+          <button onClick={onMenuClick} className="btn btn-ghost btn-circle">
+            <MenuIcon />
+          </button>
+          <div className="breadcrumbs text-sm capitalize hidden sm:inline-block">
+            <ul className="flex items-center">
+              {pathname.map((item, index) => (
+                <li key={item} className="flex items-center">
+                  <NavLink to={pathCrumbs[index]} className="flex items-center h-full">
+                    {item}
+                  </NavLink>
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
       </div>
       <div className="flex-none mr-2">

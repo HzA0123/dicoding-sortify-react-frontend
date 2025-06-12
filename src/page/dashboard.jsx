@@ -62,7 +62,7 @@ export default function Dashboard() {
   async function fetchTotal() {
     setLoadingTotal(true);
     try {
-      const res = await fetch('http://localhost:3000/api/sampah/total');
+      const res = await fetch('https://backend-sortify-t7yen6klxa-et.a.run.app/api/sampah/total');
       const data = await res.json();
       if (data.success) {
         setTotalKlasifikasi(data.total);
@@ -77,7 +77,7 @@ export default function Dashboard() {
   async function fetchDaurUlang() {
     setLoadingDaurUlang(true);
     try {
-      const res = await fetch('http://localhost:3000/api/sampah/daur-ulang');
+      const res = await fetch('https://backend-sortify-t7yen6klxa-et.a.run.app/api/sampah/daur-ulang');
       const data = await res.json();
       if (data.success) {
         setTotalDaurUlang(data.total);
